@@ -1,3 +1,7 @@
+mod evaluator;
+mod lexer;
+mod parser;
+
 use std::io::{self, Write};
 
 fn main() {
