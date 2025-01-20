@@ -1,5 +1,5 @@
 mod evaluator;
-mod lexer;
+mod expr;
 mod parser;
 
 use std::io::{self, Write};
