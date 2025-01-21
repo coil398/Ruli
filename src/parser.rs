@@ -89,6 +89,29 @@ mod tests {
                     Expr::Number(2)
                 ])
             ))
-        )
+        );
+        assert_eq!(
+            parse_list("(* 3 4)"),
+            Ok((
+                "",
+                Expr::List(vec![
+                    Expr::Symbol("*".to_string()),
+                    Expr::Number(3),
+                    Expr::Number(4),
+                ])
+            ))
+        );
+        assert_eq!(
+            parse_list("(- 10 5 2)"),
+            Ok((
+                "",
+                Expr::List(vec![
+                    Expr::Symbol("-".to_string()),
+                    Expr::Number(10),
+                    Expr::Number(5),
+                    Expr::Number(2),
+                ])
+            ))
+        );
     }
 }
