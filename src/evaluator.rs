@@ -62,4 +62,96 @@ mod tests {
         assert_eq!(eval(&Expr::Float(3.14)), Ok(Expr::Float(3.14)));
         assert_eq!(eval(&Expr::Number(-42)), Ok(Expr::Number(-42)));
     }
+    
+    #[test]
+    fn test_eval_addition() {
+        assert_eq!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("+".to_string()),
+                Expr::Number(1),
+                Expr::Number(2),
+            ])),
+            Ok(Expr::Float(3.0))
+        );
+    }
+    
+    #[test]
+    fn test_eval_multiplication() {
+        assert_eq!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("*".to_string()),
+                Expr::Number(3),
+                Expr::Number(4),
+            ])),
+            Ok(Expr::Float(12.0))
+        );
+    }
+    
+    #[test]
+    fn test_eval_subtraction() {
+        assert_eq!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("-".to_string()),
+                Expr::Number(10),
+                Expr::Number(5),
+                Expr::Number(2),
+            ])),
+            Ok(Expr::Float(3.0))
+        );
+    }
+    
+    #[test]
+    fn test_eval_division() {
+        assert_eq!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("/".to_string()),
+                Expr::Number(10),
+                Expr::Number(2),
+            ])),
+            Ok(Expr::Float(5.0))
+        );
+    }
+    
+    #[test]
+    fn test_eval_division_by_zero() {
+        assert!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("/".to_string()),
+                Expr::Number(10),
+                Expr::Number(0),
+            ])).is_err()
+        );
+    }
+    
+    #[test]
+    fn test_eval_empty_list() {
+        assert!(eval(&Expr::List(vec![])).is_err());
+    }
+    
+    #[test]
+    fn test_eval_unknown_function() {
+        assert!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("unknown".to_string()),
+                Expr::Number(1),
+                Expr::Number(2),
+            ])).is_err()
+        );
+    }
+    
+    #[test]
+    fn test_eval_nested_expressions() {
+        assert_eq!(
+            eval(&Expr::List(vec![
+                Expr::Symbol("+".to_string()),
+                Expr::List(vec![
+                    Expr::Symbol("*".to_string()),
+                    Expr::Number(2),
+                    Expr::Number(3),
+                ]),
+                Expr::Number(4),
+            ])),
+            Ok(Expr::Float(10.0))
+        );
+    }
 }
